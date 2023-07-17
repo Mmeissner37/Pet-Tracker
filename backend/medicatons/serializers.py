@@ -4,6 +4,6 @@ from .models import Medication
 
 class MedicationSerializer(serializers.ModelSerializer):
     class Meta: 
-        model = Medication
+        model = Medications
         fields = ['med_name', 'med_dose', 'med_instr']
         depth = 1

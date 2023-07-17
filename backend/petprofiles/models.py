@@ -1,6 +1,6 @@
 from django.db import models
 from authentication.models import User
-from medicatons.models import Medications
+from medicatons.models import Medication
 
 # Create your models here.
 
@@ -14,7 +14,7 @@ class PetProfile(models.Model):
     breed = models.CharField(max_length=255)
     date_of_birth = models.DateField(max_length=255)
     image_url = models.ImageField(upload_to=upload_to, blank=True, null=True) 
-    meds = models.ManyToManyField(Medications, through='Pet_Meds')
+    meds = models.ManyToManyField(Medication, through='Pet_Meds')
 
     def __str__(self) -> str:
         return f"{self.pet_name}"

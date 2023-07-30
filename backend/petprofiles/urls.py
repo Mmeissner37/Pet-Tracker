@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.get_all_profiles),
+    path('', views.get_user_profiles),
     path('<int:pk>/', views.pet_single),
     path('createpet/', views.create_pet),
     path('changepet/', views.change_pet),

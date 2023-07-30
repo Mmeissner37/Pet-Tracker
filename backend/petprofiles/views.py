@@ -37,6 +37,15 @@ def get_images(request, pk):
         serializer = PetProfileSerializer(images, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def pet_single(request, pk):
+    one_profile = get_object_or_404(PetProfile, pk=pk)
+    if request.method == 'GET':
+        serializer = PetProfileSerializer(one_profile)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
     # path('<int:pk>/', views.pet_single),
     # path('createpet/', views.create_pet),

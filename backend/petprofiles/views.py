@@ -31,6 +31,13 @@ def get_user_profiles(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def guest(request):
+    profiles = PetProfile.objects.filter(user_id=request.user.id)
+    serializer = PetProfileSerializer(profiles, many=True)
+    return Response (serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_images(request, pk):
     images = get_object_or_404(PetProfile, pk=pk)
     if request.method == 'GET':
@@ -45,9 +52,9 @@ def pet_single(request, pk):
         serializer = PetProfileSerializer(one_profile)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
 
 
-    # path('<int:pk>/', views.pet_single),
     # path('createpet/', views.create_pet),
     # path('editpet/', views.edit_pet),
     # path('guest/', views.guest_views),

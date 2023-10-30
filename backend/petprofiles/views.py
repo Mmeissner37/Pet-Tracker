@@ -53,8 +53,27 @@ def pet_single(request, pk):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createpet(request):
+    if request.method == "POST":
+        serializer = PetProfileSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    # path('createpet/', views.create_pet),
-    # path('editpet/', views.edit_pet),
-    # path('guest/', views.guest_views),
+@api_view(['PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def editpet(request, pk):
+    editpet = get_object_or_404(PetProfile, pk=pk)
+    if request.method == 'PUT':
+        serializer = PetProfileSerializer(editpet, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        editpet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
